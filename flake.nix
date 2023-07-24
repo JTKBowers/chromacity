@@ -33,14 +33,15 @@
           name = "cargo";
           bindCwd = "ro";
           envs = {
-            "HOME" = "$HOME";
+            HOME = "$HOME";
+            WAYLAND_DISPLAY = "$WAYLAND_DISPLAY";
           };
           shareNet = true;
           extraArgs = [
             "--proc /proc"
           ];
           extraRoBindDirs = [
-            "$WAYLAND_DISPLAY"
+            "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY"
           ];
         };
       in {
