@@ -28,20 +28,47 @@
           inherit system;
           overlays = [rust-overlay.overlays.default];
         };
+        runtimeDeps = with pkgs; [
+          vulkan-loader
+          wayland
+          wayland-protocols
+          libxkbcommon
+        ];
         cargo = nix-bubblewrap.lib.wrapPackage pkgs {
-          pkg = pkgs.rust-bin.stable.latest.default;
+          pkg = pkgs.cargo;
           name = "cargo";
-          bindCwd = "ro";
+          bindCwd = true;
+          shareNet = true;
+          presets = ["ssl"];
           envs = {
             HOME = "$HOME";
+            CARGO_TERM_COLOR = "always";
+            RUST_BACKTRACE = "\"$RUST_BACKTRACE\"";
+            XDG_RUNTIME_DIR = "$XDG_RUNTIME_DIR";
             WAYLAND_DISPLAY = "$WAYLAND_DISPLAY";
+            LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath runtimeDeps}";
           };
-          shareNet = true;
+          extraBindPaths = [
+            {
+              mode = "rw";
+              path = "$HOME/.cargo";
+            }
+            "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY"
+          ];
+          extraDepPkgs = with pkgs;
+            [
+              rustc
+              gcc
+              mold
+              rustfmt
+              clippy
+            ]
+            ++ runtimeDeps;
           extraArgs = [
             "--proc /proc"
-          ];
-          extraRoBindDirs = [
-            "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY"
+            "--tmpfs /tmp"
+            "--dev-bind /dev/null /dev/null"
+            "--dev-bind /dev/urandom /dev/urandom"
           ];
         };
       in {
