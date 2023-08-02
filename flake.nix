@@ -39,13 +39,12 @@
           name = "cargo";
           bindCwd = true;
           shareNet = true;
-          presets = ["ssl"];
+          presets = ["ssl" "wayland" "graphics"];
           envs = {
             HOME = "$HOME";
             CARGO_TERM_COLOR = "always";
             RUST_BACKTRACE = "\"$RUST_BACKTRACE\"";
-            XDG_RUNTIME_DIR = "$XDG_RUNTIME_DIR";
-            WAYLAND_DISPLAY = "$WAYLAND_DISPLAY";
+
             LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath runtimeDeps}";
           };
           extraBindPaths = [
@@ -53,7 +52,6 @@
               mode = "rw";
               path = "$HOME/.cargo";
             }
-            "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY"
           ];
           extraDepPkgs = with pkgs;
             [
@@ -64,14 +62,10 @@
               clippy
             ]
             ++ runtimeDeps;
-          runtimeStorePaths = [
-            "/run/opengl-driver"
-          ];
+
           extraArgs = [
             "--proc /proc"
             "--tmpfs /tmp"
-            "--dev /dev"
-            "--dev-bind /dev/dri /dev/dri"
             "--dev-bind /dev/null /dev/null"
             "--dev-bind /dev/urandom /dev/urandom"
           ];

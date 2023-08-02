@@ -28,11 +28,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1690971243,
-        "narHash": "sha256-57Kzn2+CUl6VED4fiLax9wpnhXhe60CY/xTWRo1qP2U=",
+        "lastModified": 1690977846,
+        "narHash": "sha256-jZrL0dc1jb8lzEcgl8OA/pl1ML4CRvrFv+wjT9yEdVU=",
         "owner": "JTKBowers",
         "repo": "nix-bubblewrap",
-        "rev": "e9089cc5bb32e6f9a0c0d560295f740669a201b2",
+        "rev": "5247aa7b2ffe08fee53c33c6720c4f5d6848f058",
         "type": "github"
       },
       "original": {
