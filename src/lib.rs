@@ -98,7 +98,8 @@ impl State {
         //
         // The surface needs to live as long as the window that created it.
         // State owns the window so this should be safe.
-        let surface = unsafe { instance.create_surface(&window) }.unwrap();
+        let surface =
+            unsafe { instance.create_surface(&window) }.expect("Could not create surface!");
 
         let adapter = instance
             .request_adapter(&wgpu::RequestAdapterOptions {
@@ -107,7 +108,7 @@ impl State {
                 force_fallback_adapter: false,
             })
             .await
-            .unwrap();
+            .expect("Could not create adapter!");
         let (device, queue) = adapter
             .request_device(
                 &wgpu::DeviceDescriptor {

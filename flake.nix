@@ -64,9 +64,14 @@
               clippy
             ]
             ++ runtimeDeps;
+          runtimeStorePaths = [
+            "/run/opengl-driver"
+          ];
           extraArgs = [
             "--proc /proc"
             "--tmpfs /tmp"
+            "--dev /dev"
+            "--dev-bind /dev/dri /dev/dri"
             "--dev-bind /dev/null /dev/null"
             "--dev-bind /dev/urandom /dev/urandom"
           ];
